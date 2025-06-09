@@ -1,30 +1,27 @@
 package v0040
 
 import (
-	"net/http"
 	"os"
+	"path/filepath"
 )
 
-type UnixSocketConfig struct {
-	*Configuration
-	socketPath string
-}
-
-func NewUnixSocketConfig(socketPath string) *UnixSocketConfig {
-	if _, err := os.Stat(socketPath); err != nil {
-		panic("Slurm socket not found: " + socketPath)
+// NewUnixSocketConfiguration creates API config for Unix sockets
+func NewUnixSocketConfiguration(socketPath string) *Configuration {
+	// Resolve absolute path to socket
+	absPath, err := filepath.Abs(socketPath)
+	if err != nil {
+		panic("invalid socket path: " + socketPath)
+	}
+	
+	// Verify socket exists
+	if _, err := os.Stat(absPath); err != nil {
+		panic("Slurm socket not found: " + absPath)
 	}
 
-	return &UnixSocketConfig{
-		Configuration: NewConfiguration(),
-		socketPath:    socketPath,
-	}
-}
-
-func (c *UnixSocketConfig) HTTPClient() *http.Client {
-	return NewUnixSocketHTTPClient(c.socketPath).client
-}
-
-func (c *UnixSocketConfig) Host() string {
-	return "http:%2F%2Funix" // Required for proper URL resolution
+	cfg := NewConfiguration()
+	cfg.Host = "unix-socket" // Dummy hostname
+	cfg.Scheme = "http"
+	cfg.HTTPClient = NewUnixSocketHTTPClient(absPath)
+	
+	return cfg
 }

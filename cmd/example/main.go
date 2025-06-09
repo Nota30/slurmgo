@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Time to create the client and provide the necessary configuration options
-	configuration := slurmClient.NewUnixSocketConfig("/var/spool/slurmrestd/slurmrestsoc")
+	configuration := slurmClient.NewUnixSocketConfiguration("/var/spool/slurmrestd/slurmrestsoc")
 
 	// Let's create the context in which we embed the authentication parameters. This auth
 	// context will later be passed to the different requests. Be sure to read up more on
@@ -60,9 +60,7 @@ func main() {
 	)
 
 	// Time to create the client! We can now begin making requests
-	apiClient := slurmClient.NewAPIClient(configuration.Configuration)
-	apiClient.GetConfig().HTTPClient = configuration.HTTPClient()
-	apiClient.GetConfig().Host = configuration.Host()
+	apiClient := slurmClient.NewAPIClient(configuration)
 
 	fmt.Printf("time to make a ping request!\n")
 
