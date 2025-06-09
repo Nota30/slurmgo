@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"strings"
 
@@ -45,7 +46,8 @@ func main() {
 
 	// Time to create the client and provide the necessary configuration options
 	configuration := slurmClient.NewConfiguration()
-	configuration.Host = fmt.Sprint("/var/spool/slurmrestd/slurmrestsoc")
+	soc, _ := url.QueryUnescape("/var/spool/slurmrestd/slurmrestsoc")
+	configuration.Host = soc
 	configuration.Scheme = "unix"
 
 	// Let's create the context in which we embed the authentication parameters. This auth
