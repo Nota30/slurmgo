@@ -113,7 +113,7 @@ func main() {
 	fmt.Printf("\nprinting out the pings field...\n")
 	printPings(pings)
 
-	nodesResp, respRaw, err := apiClient.SlurmAPI.SlurmV0040GetNodes(auth).Execute()
+	nodesResp, respRaw, err := apiClient.SlurmAPI.SlurmV0040GetPartitions(auth).Execute()
 	if err != nil {
 		fmt.Printf("error getting nodes: %v", err)
 		_, err := io.ReadAll(respRaw.Body)
@@ -124,7 +124,7 @@ func main() {
 		os.Exit(-1)
 	}
 	fmt.Printf("\nthe response's status code is: %s\n", respRaw.Status)
-	if nodes, ok := nodesResp.GetNodesOk(); ok {
+	if nodes, ok := nodesResp.GetPartitionsOk(); ok {
 		printNodes(nodes)
 	}
 
@@ -172,8 +172,8 @@ func printPings(pings []slurmClient.V0040ControllerPing) {
 }
 
 
-func printNodes(nodes []slurmClient.V0040Node) {
+func printNodes(nodes []slurmClient.V0040PartitionInfo) {
 	for i, node := range nodes {
-		fmt.Printf("\t.pings.%d.hostname: %s\n", i, *node.Hostname)
+		fmt.Printf("\t.pings.%d.hostname: %s\n", i, node.GetName())
 	}
 }
