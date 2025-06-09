@@ -50,14 +50,17 @@ func main() {
 	// context will later be passed to the different requests. Be sure to read up more on
 	// the context package (which is part of the standard library) to get a feel for what
 	// it achieves. The blog post at https://go.dev/blog/context is also a great read!
-	auth := context.WithValue(
-		context.Background(),
-		slurmClient.ContextAPIKeys,
-		map[string]slurmClient.APIKey{
-			"user":  {Key: slurmUser},
-			//"token": {Key: slurmToken},
-		},
-	)
+
+	// auth := context.WithValue(
+	// 	context.Background(),
+	// 	// slurmClient.ContextAPIKeys,
+	// 	// map[string]slurmClient.APIKey{
+	// 	// 	"user":  {Key: slurmUser},
+	// 	// 	//"token": {Key: slurmToken},
+	// 	// },
+	// )
+
+	auth := context.Background()
 
 	// Time to create the client! We can now begin making requests
 	apiClient := slurmClient.NewAPIClient(configuration)
