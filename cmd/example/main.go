@@ -115,6 +115,11 @@ func main() {
 	nodesResp, respRaw, err := apiClient.SlurmAPI.SlurmV0040GetNodes(auth).Execute()
 	if err != nil {
 		fmt.Printf("error getting nodes: %v", err)
+		_, err := io.ReadAll(respRaw.Body)
+		if err != nil {
+			fmt.Printf("error getting the raw HTTP body: %v\n", err)
+			os.Exit(-1)
+		}
 		os.Exit(-1)
 	}
 	fmt.Printf("\nthe response's status code is: %s\n", respRaw.Status)
