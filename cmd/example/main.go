@@ -45,7 +45,7 @@ func main() {
 
 	// Time to create the client and provide the necessary configuration options
 	configuration := slurmClient.NewConfiguration()
-	configuration.Host = "/var/spool/slurmrestd/slurmrestsoc"
+	configuration.Host = fmt.Sprint("/var/spool/slurmrestd/slurmrestsoc")
 	configuration.Scheme = "unix"
 
 	// Let's create the context in which we embed the authentication parameters. This auth
