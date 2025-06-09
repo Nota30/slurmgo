@@ -44,23 +44,23 @@ func main() {
 	}
 
 	// Time to create the client and provide the necessary configuration options
-	configuration := slurmClient.NewUnixSocketConfiguration("/var/spool/slurmrestd/slurmrestsoc")
+	configuration := slurmClient.NewConfiguration()
+	configuration.Host = "unix-socket"
+	configuration.Scheme = scheme
 
 	// Let's create the context in which we embed the authentication parameters. This auth
 	// context will later be passed to the different requests. Be sure to read up more on
 	// the context package (which is part of the standard library) to get a feel for what
 	// it achieves. The blog post at https://go.dev/blog/context is also a great read!
 
-	// auth := context.WithValue(
-	// 	context.Background(),
-	// 	// slurmClient.ContextAPIKeys,
-	// 	// map[string]slurmClient.APIKey{
-	// 	// 	"user":  {Key: slurmUser},
-	// 	// 	//"token": {Key: slurmToken},
-	// 	// },
-	// )
-
-	auth := context.Background()
+	auth := context.WithValue(
+		context.Background(),
+		slurmClient.ContextAPIKeys,
+		map[string]slurmClient.APIKey{
+			"user":  {Key: slurmUser},
+			"token": {Key: slurmToken},
+		},
+	)
 
 	// Time to create the client! We can now begin making requests
 	apiClient := slurmClient.NewAPIClient(configuration)
