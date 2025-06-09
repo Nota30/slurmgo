@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Time to create the client and provide the necessary configuration options
-	configuration := slurmClient.NewUnixSocketConfig("%2Fvar%2Fspool%2Fslurmrestd%2Fslurmrestsoc")
+	configuration := slurmClient.NewUnixSocketConfig("/var/spool/slurmrestd/slurmrestsoc")
 
 	// Let's create the context in which we embed the authentication parameters. This auth
 	// context will later be passed to the different requests. Be sure to read up more on
