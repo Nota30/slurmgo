@@ -45,8 +45,8 @@ func main() {
 
 	// Time to create the client and provide the necessary configuration options
 	configuration := slurmClient.NewConfiguration()
-	configuration.Host = "%2Fvar%2Fspool%2Fslurmrestd%2Fslurmrestsoc"
-	configuration.Scheme = "http://unix:"
+	configuration.Host = "unix:%2Fvar%2Fspool%2Fslurmrestd%2Fslurmrestsoc"
+	configuration.Scheme = "http"
 
 	// Let's create the context in which we embed the authentication parameters. This auth
 	// context will later be passed to the different requests. Be sure to read up more on
