@@ -26,5 +26,5 @@ func (c *UnixSocketConfig) HTTPClient() *http.Client {
 }
 
 func (c *UnixSocketConfig) Host() string {
-	return "http://unix" // Required for proper URL resolution
+	return "http:%2f%2funix" // Required for proper URL resolution
 }
