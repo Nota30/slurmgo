@@ -114,7 +114,7 @@ func main() {
 
 	nodesResp, respRaw, err := apiClient.SlurmAPI.SlurmV0040GetNodes(auth).Execute()
 	if err != nil {
-		fmt.Errorf("error getting nodes: %w", err)
+		fmt.Printf("error getting nodes: %v", err)
 		os.Exit(-1)
 	}
 	fmt.Printf("\nthe response's status code is: %s\n", respRaw.Status)
