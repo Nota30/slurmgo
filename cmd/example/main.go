@@ -20,7 +20,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&slurmUser, "slurmUser", "foo", "SLURM username for authentication")
+	flag.StringVar(&slurmUser, "slurmUser", "root", "SLURM username for authentication")
 	flag.StringVar(&slurmToken, "slurmToken", "topSecret", "SLURM JWT token for authentication")
 	flag.StringVar(&host, "host", "localhost", "Host where the slurmrestd daemon is running")
 	flag.IntVar(&port, "port", 6820, "Port where the slurmrestd daemon is listening")
@@ -45,8 +45,8 @@ func main() {
 
 	// Time to create the client and provide the necessary configuration options
 	configuration := slurmClient.NewConfiguration()
-	configuration.Host = fmt.Sprintf("%s:%d", host, port)
-	configuration.Scheme = scheme
+	configuration.Host = "/var/spool/slurmrestd/slurmrestsoc"
+	configuration.Scheme = "unix"
 
 	// Let's create the context in which we embed the authentication parameters. This auth
 	// context will later be passed to the different requests. Be sure to read up more on
@@ -57,7 +57,7 @@ func main() {
 		slurmClient.ContextAPIKeys,
 		map[string]slurmClient.APIKey{
 			"user":  {Key: slurmUser},
-			"token": {Key: slurmToken},
+			//"token": {Key: slurmToken},
 		},
 	)
 
